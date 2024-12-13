@@ -75,85 +75,160 @@
                             <h4 class="text-[#364A63] font-semibold text-sm">Forerunner 290XT</h4>
                         </div>
                     </div>
-    
+                  
                     <!-- Band Color Section -->
                     <h5 class="text-[#364A63] font-semibold mb-3">Band Color</h5>
                     <div class="flex space-x-4 mb-4">
                         <!-- Purple -->
                         <label class="flex items-center">
-                            <input type="radio" name="bandColor" class="hidden peer" />
+                            <input type="radio" name="bandColor" value="purple" class="hidden peer" checked />
                             <div class="w-5 h-5 rounded-full border-[#816BFF] bg-[#816BFF] peer-checked:ring-2 peer-checked:ring-[#816BFF] peer-checked:ring-offset-2"></div>
                         </label>
-                        <!-- Teal -->
+                        <!-- Cyan -->
                         <label class="flex items-center">
-                            <input type="radio" name="bandColor" class="hidden peer" />
+                            <input type="radio" name="bandColor" value="cyan" class="hidden peer" />
                             <div class="w-5 h-5 rounded-full bg-[#1FCEC9] peer-checked:ring-2 peer-checked:ring-[#1FCEC9] peer-checked:ring-offset-2"></div>
                         </label>
                         <!-- Blue -->
                         <label class="flex items-center">
-                            <input type="radio" name="bandColor" class="hidden peer" />
+                            <input type="radio" name="bandColor" value="blue" class="hidden peer" />
                             <div class="w-5 h-5 rounded-full bg-[#4B97D3] peer-checked:ring-2 peer-checked:ring-[#4B97D3] peer-checked:ring-offset-2"></div>
                         </label>
-                        <!-- Dark Gray -->
+                        <!-- Black -->
                         <label class="flex items-center">
-                            <input type="radio" name="bandColor" class="hidden peer" />
+                            <input type="radio" name="bandColor" value="black" class="hidden peer" />
                             <div class="w-5 h-5 rounded-full bg-[#3B4747] peer-checked:ring-2 peer-checked:ring-[#3B4747] peer-checked:ring-offset-2"></div>
                         </label>
-                    </div>
+                    </div>  
     
                     <!-- Size Section -->
                     <h5 class="text-[#364A63] font-semibold mb-2.5">Wrist Size</h5>
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded">
-                            <h3 class="text-[#364A63] font-bold">S</h3>
-                            <h3 class="text-[#8091A7]">$69</h3>
+                        <!-- Size S -->
+                        <div class="flex items-center gap-2 border-2 border-[#816BFF] text-sm px-5 py-2 rounded" onclick="handleSize(this)">
+                            <h3 class="text-[#816BFF] font-bold">S</h3>
+                            <h4 class="text-[#8091A7]">$69</h4>
                         </div>
-                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded">
+                        <!-- Size M -->
+                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded" onclick="handleSize(this)">
                             <h3 class="text-[#364A63] font-bold">M</h3>
-                            <h3 class="text-[#8091A7]">$79</h3>
+                            <h4 class="text-[#8091A7]">$79</h4>
                         </div>
-                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded">
+                        <!-- Size L -->
+                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded" onclick="handleSize(this)">
                             <h3 class="text-[#364A63] font-bold">L</h3>
-                            <h3 class="text-[#8091A7]">$89</h3>
+                            <h4 class="text-[#8091A7]">$89</h4>
                         </div>
-                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded">
+                        <!-- Size XL -->
+                        <div class="flex items-center gap-2 border-2 border-[#DBDFEA] text-sm px-5 py-2 rounded" onclick="handleSize(this)">
                             <h3 class="text-[#364A63] font-bold">XL</h3>
-                            <h3 class="text-[#8091A7]">$99</h3>
+                            <h4 class="text-[#8091A7]">$99</h4>
                         </div>
                     </div>
+                    
     
                     <!-- Add to Cart Section -->
                     <div class="flex items-center space-x-4">
                         <!-- Quantity Selector -->
                         <div class="flex items-center border-2 border-[#DBDFEA] rounded-md">
-                          <button class="px-3 py-2 text-[#8091A7]"><i class="fa-solid fa-minus"></i></button>
-                          <div class="px-6 py-2 text-[#364A63] font-medium border-l-2 border-r-2 border-[#DBDFEA]">0</div>
-                          <button class="px-3 py-2 text-[#8091A7]"><i class="fa-solid fa-plus"></i></button>
+                            <button class="px-3 py-2 text-[#8091A7]" onclick="updateQuantity(-1)">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <div id="quantity" class="px-6 py-2 text-[#364A63] font-medium border-l-2 border-r-2 border-[#DBDFEA]">0</div>
+                            <button class="px-3 py-2 text-[#8091A7]" onclick="updateQuantity(1)">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
                         </div>
                       
                         <!-- Add to Cart Button -->
-                        <button class="px-5 py-[11.6px] bg-[#6576FF] text-white text-sm font-medium rounded-md hover:bg-[#6172f8]">
-                          Add to Cart
+                        <button class="px-5 py-[11.6px] bg-[#6576FF] text-white text-sm font-medium rounded-md hover:bg-[#6172f8]" onclick="addToCart()">
+                            Add to Cart
                         </button>
                       
                         <!-- Wishlist Icon -->
                         <i class="fa-regular fa-heart text-[#6576FF] text-lg"></i>
-                        
                       </div>
                       
     
                 </div>
             </div>
         </div>
-         <!-- Checkout Section -->
-         <div class="flex justify-center items-center my-10">
-            <button class="flex items-center justify-center space-x-3 px-6 py-3 bg-[#FFBB5A] font-bold text-[#364A63] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#f5b254]">
-              <span>Checkout</span>
-              <span class="flex items-center justify-center w-6 h-6 bg-white text-sm rounded-md">
-                2
-              </span>
+        
+        <!-- Checkout Section -->
+        <div id="checkout-section" class="flex justify-center items-center my-10 hidden">
+            <button id="checkout-button" data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block flex items-center justify-center space-x-3 px-6 py-3 bg-[#FFBB5A] font-bold text-[#364A63] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#f5b254]" type="button" onclick="toggleModal()">
+                <span>Checkout</span>
+                <span id="item-count" class="flex items-center justify-center w-6 h-6 bg-white text-sm rounded-md">
+                    0
+                </span>
             </button>
-        </div>          
+        </div>   
+        
+        <div id="popup-modal" tabindex="-1" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="relative p-4 w-full max-w-2xl max-h-full bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-4 md:p-10">
+                    <h3 class="mb-5 text-xl font-bold text-[#364A63]">Your Cart</h3>
+
+                    <!-- Cart Table -->
+                    <table class="w-full text-left text-sm text-[#8091A7] mb-6">
+                        <thead>
+                            <tr class="border-b text-[#8091A7]">
+                                <th class="pr-4 py-3 font-normal">Item</th>
+                                <th class="px-4 py-3 text-center font-normal">Color</th>
+                                <th class="px-4 py-3 text-center font-normal">Size</th>
+                                <th class="px-4 py-3 text-center font-normal">Qut</th>
+                                <th class="text-right py-3 font-normal">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Item 1 -->
+                            <tr class="border-b text-[#364A63]">
+                                <td class="pr-4 py-3">
+                                    <div class="flex items-center">
+                                        <img class="w-12 h-12 rounded" src="./images/purple.png">
+                                        <div class="ml-2">
+                                            <p>Classy Modern Smart Watch</p>
+                                        </div>
+                                    </div>
+                                </td>                               
+                                <td class="px-4 py-3 text-center">Black</td>
+                                <td class="px-4 py-3 text-center font-semibold">XL</td>
+                                <td class="px-4 py-3 text-center font-semibold">1</td>
+                                <td class="text-right py-3 font-semibold">$99.00</td>
+                            </tr>
+                            <!-- Item 1 -->
+                            <tr class="text-[#364A63]">
+                                <td class="pr-4 py-5 text-lg font-semibold">Total</td>                               
+                                <td class="px-4 py-5 text-center"></td>
+                                <td class="px-4 py-5 text-center"></td>
+                                <td class="px-4 py-5 text-center font-semibold">4</td>
+                                <td class="text-right py-5 text-lg font-semibold">$356.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="flex justify-end items-center space-x-5">
+                        <button onclick="toggleModal()" class="py-2.5 px-5 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-md hover:bg-gray-100 hover:text-[#6576FF] focus:outline-none">
+                            Continue Shopping
+                        </button>
+                        <button class="py-2.5 px-5 text-sm font-medium text-white bg-[#6576FF] hover:bg-[#5d6ef6] rounded-md focus:outline-none">
+                            Checkout
+                        </button>
+                    </div>        
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            function toggleModal() {
+                const modal = document.getElementById("popup-modal");
+                modal.classList.toggle("hidden");
+            }
+        </script>
+        
     </div>
+
+    <!-- javascript  -->
+    <script src="./script.js"></script>
 </body>
 </html>
