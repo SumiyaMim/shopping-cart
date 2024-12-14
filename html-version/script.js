@@ -88,3 +88,16 @@ function toggleModal() {
     const modal = document.getElementById("popup-modal");
     modal.classList.toggle("hidden");
 }
+
+// Handle checkout modal
+function checkoutModal() {
+    const modal = document.getElementById("checkout-modal");
+    modal.classList.remove("hidden");
+}
+
+// Handle checkout close modal
+function closeModal() {
+    const modal = document.getElementById("checkout-modal");
+    modal.classList.add("hidden");
+    window.location.reload(); 
+}
