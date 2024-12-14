@@ -65,3 +65,8 @@ function handleSize(element) {
     element.querySelector('h3').classList.add('text-[#816BFF]');
 }
 
+// Handle Modal
+function toggleModal() {
+    const modal = document.getElementById("popup-modal");
+    modal.classList.toggle("hidden");
+}
