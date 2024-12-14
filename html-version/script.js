@@ -63,10 +63,6 @@ function updateQuantity(change) {
         quantity += change;
         document.getElementById('quantity').textContent = quantity;
 
-        if (isCheckoutVisible) {
-            document.getElementById('item-count').textContent = quantity;
-        }
-
         if (quantity === 0) {
             document.getElementById('checkout-section').classList.add('hidden');
             isCheckoutVisible = false;
@@ -74,12 +70,59 @@ function updateQuantity(change) {
     }
 }
 
-// Handle "Add to Cart" button click
+// Handle Add to Cart button
 function addToCart() {
     if (quantity > 0) {
+        // Get product details
+        const productDetails = {
+            image: productImage.src,                 
+            name: document.querySelector("h1").textContent,  
+            wristSize: activeSizeElement ? activeSizeElement.querySelector("h3").textContent : "N/A",  
+            price: parseFloat(activeSizeElement ? activeSizeElement.querySelector("h4").textContent.replace('$', '') : 0),
+            quantity: quantity,                        
+            bandColor: getBandColorName(selectedBandColor)             
+        };
+
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.findIndex(item => 
+            item.bandColor === productDetails.bandColor &&
+            item.wristSize === productDetails.wristSize
+        );
+
+        // If item exists, update quantity
+        if (existingItemIndex !== -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push(productDetails);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart)); 
+
+        // Display the updated cart items
+        displayCartItems();
+
         document.getElementById('checkout-section').classList.remove('hidden');
-        document.getElementById('item-count').textContent = quantity;
         isCheckoutVisible = true;
+
+        // Reset quantity after adding to cart
+        quantity = 0;
+        document.getElementById('quantity').textContent = quantity;
+    }
+}
+
+function getBandColorName(hexColor) {
+    if (hexColor === "#816BFF") {
+        return "Purple";
+    } else if (hexColor === "#1FCEC9") {
+        return "Cyan";
+    } else if (hexColor === "#4B97D3") {
+        return "Blue";
+    } else if (hexColor === "#3B4747") {
+        return "Black";
+    } else {
+        return "Purple";
     }
 }
 
@@ -93,6 +136,14 @@ function toggleModal() {
 function checkoutModal() {
     const modal = document.getElementById("checkout-modal");
     modal.classList.remove("hidden");
+
+    localStorage.removeItem("cart");
+
+    // Reset the cart quantity and UI elements
+    document.getElementById('quantity').textContent = 0;
+    document.getElementById('item-count').textContent = 0;
+    document.getElementById('checkout-section').classList.add('hidden');
+    isCheckoutVisible = false;
 }
 
 // Handle checkout close modal
@@ -100,4 +151,89 @@ function closeModal() {
     const modal = document.getElementById("checkout-modal");
     modal.classList.add("hidden");
     window.location.reload(); 
+}
+
+window.addEventListener('load', () => {
+    displayCartItems();
+
+    // Check cart items and checkout button visibility
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cart.length > 0) {
+        document.getElementById('checkout-section').classList.remove('hidden');
+    } else {
+        document.getElementById('checkout-section').classList.add('hidden');
+    }
+});
+
+// Handle display cart details
+function displayCartItems() {
+    const cartTableBody = document.querySelector('tbody');
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Clear existing rows
+    cartTableBody.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Your cart is empty.</td></tr>';
+    }
+
+    cart.forEach(item => {
+        const row = document.createElement('tr');
+        row.classList.add('text-[#364A63]');
+        row.classList.add('border-b');
+
+        row.innerHTML = `
+            <td class="pr-4 py-3">
+                <div class="flex flex-col md:flex-row items-center">
+                    <img class="w-12 h-12 rounded" src="${item.image}">
+                    <div class="ml-2">
+                        <p>${item.name}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="px-4 py-3 text-center">${item.bandColor}</td>
+            <td class="px-4 py-3 text-center font-semibold">${item.wristSize}</td>
+            <td class="px-4 py-3 text-center font-semibold">${item.quantity}</td>
+            <td class="text-right py-3 font-semibold">$${(item.price * item.quantity).toFixed(2)}</td>
+        `;
+
+        cartTableBody.appendChild(row);
+    });
+
+    const distinctItemsCount = cart.length; 
+    document.getElementById('item-count').textContent = distinctItemsCount;
+
+    updateTotalRow(cart);
+}
+
+// Update table row
+function updateTotalRow(cart) {
+    const cartTableBody = document.querySelector('tbody');
+    const totalRow = document.querySelector('tbody tr:last-child');
+
+    if (cart.length > 0) {
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+        const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (!totalRow || !totalRow.classList.contains('total-row')) {
+            const totalRow = document.createElement('tr');
+            totalRow.classList.add('total-row', 'text-[#364A63]');
+            totalRow.innerHTML = `
+                <td class="pr-4 py-5 text-lg font-semibold">Total</td>
+                <td class="px-4 py-5 text-center"></td>
+                <td class="px-4 py-5 text-center"></td>
+                <td class="px-4 py-5 text-center font-semibold">${totalQuantity}</td>
+                <td class="text-right py-5 text-lg font-semibold">$${totalPrice}</td>
+            `;
+            cartTableBody.appendChild(totalRow);
+        } else {
+            totalRow.innerHTML = `
+                <td class="pr-4 py-5 text-lg font-semibold">Total</td>
+                <td class="px-4 py-5 text-center"></td>
+                <td class="px-4 py-5 text-center"></td>
+                <td class="px-4 py-5 text-center font-semibold">${totalQuantity}</td>
+                <td class="text-right py-5 text-lg font-semibold">$${totalPrice}</td>
+            `;
+        }
+    }
 }
