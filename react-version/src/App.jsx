@@ -276,7 +276,7 @@ function App() {
       </div>
 
       {/* Checkout Section */}
-      <div id="checkout-section" className={`flex justify-center items-center mt-6 mb-10 ${cartItems === 0 ? 'hidden' : ''}`}>
+      <div id="checkout-section" className={`flex justify-center items-center mt-6 mb-16 ${cartItems === 0 ? 'hidden' : ''}`}>
       {cartItems > 0 && (
         <button
           id="checkout-button"
