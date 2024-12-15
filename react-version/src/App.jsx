@@ -12,6 +12,7 @@ function App() {
   const [image, setImage] = useState(purpleImage);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(0);
+  const [cartItems, setCartItems] = useState(0);
 
   // handle band color
   const handleColorChange = (event) => {
@@ -59,9 +60,11 @@ function App() {
 
   // handle add to cart 
   const handleCart = () => {
-    console.log('Item added to cart');
+    if (quantity > 0) {
+      setCartItems(cartItems + quantity);
+      setQuantity(0); 
+    }  
   };
-
 
   return (
     <>
@@ -260,6 +263,7 @@ function App() {
               <button
                 className="px-5 py-[11.6px] bg-[#6576FF] text-white text-sm font-medium rounded-md hover:bg-[#6172f8]"
                 onClick={handleCart}
+                disabled={quantity <= 0}
               >
                 Add to Cart
               </button>
@@ -272,7 +276,8 @@ function App() {
       </div>
 
       {/* Checkout Section */}
-      <div id="checkout-section" className="flex justify-center items-center mt-6 mb-10">
+      <div id="checkout-section" className={`flex justify-center items-center mt-6 mb-10 ${cartItems === 0 ? 'hidden' : ''}`}>
+      {cartItems > 0 && (
         <button
           id="checkout-button"
           className="block flex items-center justify-center space-x-3 px-6 py-3 bg-[#FFBB5A] font-bold text-[#364A63] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#f5b254]"
@@ -280,10 +285,11 @@ function App() {
         >
           <span>Checkout</span>
           <span id="item-count" className="flex items-center justify-center w-6 h-6 bg-white text-sm rounded-md">
-            0
+            {cartItems}
           </span>
         </button>
-      </div>
+      )}
+    </div>
     </>
   );
 }
