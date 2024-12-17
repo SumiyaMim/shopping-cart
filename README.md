@@ -1,9 +1,9 @@
-### Live Preview Link:
+## Live Preview Link:
 HTML Version - https://shopping-cart-html.netlify.app/
 
 React Version - https://shopping-cart-react-vs.netlify.app/
 
-### Technology:
+## Technology:
 
 HTML Version:
 - HTML
