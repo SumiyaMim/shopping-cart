@@ -5,3 +5,4 @@ Live Link - https://shopping-cart-html.netlify.app/
 - HTML
 - Tailwind CSS
 - Vanilla JavaScript
+- LocalStorage
