@@ -9,6 +9,7 @@ HTML Version:
 - HTML
 - Tailwind CSS
 - Vanilla JavaScript
+- LocalStorage
 
 React Version:
 - React
